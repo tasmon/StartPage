@@ -1,0 +1,355 @@
+/* StartPage Browser
+   Layout locked to 240x320, no horizontal scroll, dark theme supported everywhere.
+   Bottom bar acts as LSK (Menu) / RSK (Back) softkeys for feature phones.
+*/
+
+*{ box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root{
+  --bg:#f2f4f7;
+  --panel:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --accent:#2563eb;
+  --accent-contrast:#ffffff;
+  --danger:#dc2626;
+  --radius:8px;
+  --shadow: 0 2px 6px rgba(16,24,40,0.08);
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  --nav-bg: rgba(0,0,0,0.04);
+}
+
+:root.dark{
+  --bg:#0b1220;
+  --panel:#07101a;
+  --text:#e6eef8;
+  --muted:#9aa9bf;
+  --accent:#60a5fa;
+  --accent-contrast:#07101a;
+  --danger:#f87171;
+  --shadow: none;
+  --nav-bg: rgba(255,255,255,0.03);
+}
+
+/* Prevent any sideways scroll */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  overflow-y: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Fixed-size app container */
+.container{
+  width: 240px;
+  height: 320px;
+  margin: 8px auto;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+  background: linear-gradient(180deg, var(--panel), var(--panel));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Top bar */
+.topbar{
+  padding: 6px 8px;
+  background: transparent;
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+  flex: 0 0 auto;
+}
+
+.datetime {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+/* Buttons */
+.btn{
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  user-select: none;
+  min-width: 36px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn.full{
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* Search */
+.search-wrap{
+  display:flex;
+  gap:6px;
+  align-items:center;
+  padding: 0 6px;
+}
+
+.search-input{
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.08);
+  font-size: 13px;
+  background: transparent;
+  color: var(--text);
+  outline: none;
+  overflow-wrap: anywhere;
+}
+
+.hint{
+  margin: 10px 6px 0 6px;
+  font-size: 11px;
+  color: var(--muted);
+  text-align: center;
+}
+
+/* Main screens */
+.screen{
+  padding: 8px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: thin;
+}
+
+.screen::-webkit-scrollbar{ height:6px; width:6px; }
+.screen::-webkit-scrollbar-thumb{ background: rgba(0,0,0,0.12); border-radius:6px; }
+
+.hidden{ display: none; }
+
+.app-title{
+  font-size: 18px;
+  margin: 6px 0 12px 0;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.screen h2{
+  font-size: 15px;
+  margin: 2px 0 8px 0;
+  text-align: center;
+}
+
+/* Menu list (LSK menu) */
+.menu-list{
+  list-style: none;
+  padding: 0;
+  margin: 4px 0 0 0;
+}
+
+.menu-item{
+  width: 100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+}
+
+.menu-item:focus,
+.menu-item:active{
+  outline: none;
+  background: rgba(37,99,235,0.12);
+  color: var(--accent);
+}
+
+.menu-item .num{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 11px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+
+/* Lists */
+.list{
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.list li{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:8px;
+  border-radius:6px;
+  margin-bottom:6px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+  font-size:12px;
+  gap:8px;
+}
+
+.list li .meta{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width: 0;
+}
+
+.list li a{
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 120px;
+}
+
+/* Forms */
+.fav-form{
+  display:flex;
+  flex-direction: column;
+  gap:6px;
+  margin-bottom:8px;
+}
+
+.fav-form input{
+  padding:6px;
+  border-radius:6px;
+  border:1px solid rgba(0,0,0,0.06);
+  font-size:12px;
+  background:transparent;
+  color:var(--text);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Settings */
+.setting-row{
+  margin:8px 0;
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.setting-row label{
+  font-size:12px;
+  color:var(--muted);
+}
+
+select{
+  padding:8px;
+  border-radius:6px;
+  border:1px solid rgba(0,0,0,0.06);
+  background:transparent;
+  color:var(--text);
+  font-size:12px;
+  min-width: 0;
+}
+
+/* About */
+.about{
+  background: linear-gradient(180deg, rgba(0,0,0,0.02), transparent);
+  padding:8px;
+  border-radius:6px;
+  font-size:12px;
+  color:var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* Help */
+.help-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 11px;
+  color: var(--text);
+}
+
+.help-list li{
+  padding: 6px 2px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  line-height: 1.4;
+}
+
+/* Footer / softkey bar (LSK = Menu, RSK = Back) */
+.softkey-bar{
+  padding: 6px 4px;
+  border-top: 1px solid rgba(0,0,0,0.04);
+  background: var(--nav-bg);
+  flex: 0 0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:6px;
+}
+
+.softkey{
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.softkey:active,
+.softkey:focus{
+  outline: none;
+  background: rgba(37,99,235,0.12);
+}
+
+.softkey-left{ text-align:left; }
+.softkey-right{ text-align:right; }
+
+/* status area (starts empty) */
+.status{
+  font-size:10px;
+  color:var(--muted);
+  text-align:center;
+  min-height:12px;
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Ensure no horizontal overflow from long text */
+* { max-width: 100%; }
+
+/* Small adjustments for tight layout */
+@media (max-width:240px){
+  .container{ transform: scale(0.98); transform-origin: center; }
+}

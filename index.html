@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=240, height=320, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>StartPage Browser</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="app" class="container" role="application" aria-label="StartPage Browser">
+    <header class="topbar">
+      <div id="datetime" class="datetime" aria-live="polite"></div>
+    </header>
+
+    <!-- HOME -->
+    <main class="screen" id="screen-home" data-screen="home" aria-live="polite">
+      <h1 class="app-title">StartPage</h1>
+
+      <div class="search-wrap">
+        <input id="search-input" class="search-input" type="search" placeholder="Search the web" aria-label="Search" />
+        <button id="btn-go" class="btn go" aria-label="Go">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+            <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <p class="hint">Press <strong>Menu</strong> for Favorites, History, Settings &amp; Help</p>
+    </main>
+
+    <!-- MENU (opened via LSK) -->
+    <main class="screen hidden" id="screen-menu" data-screen="menu" aria-live="polite">
+      <h2>Menu</h2>
+      <ul class="menu-list" id="menu-list" aria-label="Menu list">
+        <li><button class="menu-item" data-target="favorites"><span class="num">1</span> Favorites</button></li>
+        <li><button class="menu-item" data-target="history"><span class="num">2</span> History</button></li>
+        <li><button class="menu-item" data-target="settings"><span class="num">3</span> Settings</button></li>
+        <li><button class="menu-item" data-target="help"><span class="num">4</span> Help</button></li>
+      </ul>
+    </main>
+
+    <!-- FAVORITES -->
+    <main class="screen hidden" id="screen-favorites" data-screen="favorites" aria-live="polite">
+      <h2>Favorites</h2>
+      <form id="add-favorite-form" class="fav-form" onsubmit="return false;" aria-label="Add favorite form">
+        <input id="fav-title" type="text" placeholder="Title" required aria-label="Favorite title" />
+        <input id="fav-url" type="url" placeholder="https://example.com" required aria-label="Favorite URL" />
+        <button id="btn-save-fav" class="btn full" aria-label="Save Favorite">Save Favorite</button>
+      </form>
+      <ul id="favorites-list" class="list" aria-label="Favorites list"></ul>
+    </main>
+
+    <!-- HISTORY -->
+    <main class="screen hidden" id="screen-history" data-screen="history" aria-live="polite">
+      <h2>History</h2>
+      <div class="history-controls">
+        <button id="btn-clear-history" class="btn full" aria-label="Clear History">Clear History</button>
+      </div>
+      <ul id="history-list" class="list" aria-label="History list"></ul>
+    </main>
+
+    <!-- SETTINGS -->
+    <main class="screen hidden" id="screen-settings" data-screen="settings" aria-live="polite">
+      <h2>Settings</h2>
+
+      <div class="setting-row">
+        <label>About</label>
+        <div class="about" aria-label="About">
+          <div><strong>App</strong>: StartPage</div>
+          <div><strong>Version</strong>: 3.1.0</div>
+          <div><strong>Developer</strong>: Tasmon Islam</div>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <label for="search-engine">Search engine</label>
+        <select id="search-engine" aria-label="Search engine selector">
+          <option value="https://www.bing.com/search?q=">Bing (default)</option>
+          <option value="https://www.google.com/search?q=">Google</option>
+          <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+          <option value="https://search.yahoo.com/search?p=">Yahoo</option>
+          <option value="https://www.ecosia.org/search?q=">Ecosia</option>
+          <option value="https://www.startpage.com/sp/search?q=">Startpage</option>
+          <option value="https://search.brave.com/search?q=">Brave</option>
+        </select>
+      </div>
+
+      <div class="setting-row">
+        <label for="theme-toggle">Theme</label>
+        <div class="toggle-wrap">
+          <button id="theme-toggle" class="btn full" aria-label="Toggle theme">Toggle Day/Dark</button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <button class="btn full" data-target="help" id="btn-open-help" aria-label="Open Help">Help</button>
+      </div>
+    </main>
+
+    <!-- HELP -->
+    <main class="screen hidden" id="screen-help" data-screen="help" aria-live="polite">
+      <h2>Help</h2>
+      <ul class="help-list">
+        <li><strong>Search:</strong> Type a query, then press Enter or tap the magnifier.</li>
+        <li><strong>Menu (LSK):</strong> Opens Favorites, History, Settings and Help. Press number keys 1-4 to jump to an item.</li>
+        <li><strong>Back (RSK):</strong> Returns to the previous screen, or closes StartPage from Home.</li>
+        <li><strong>Favorites:</strong> Add a title and URL, then tap Save Favorite.</li>
+        <li><strong>History:</strong> Shows recently visited links. Tap Clear History to erase it.</li>
+        <li><strong>Settings:</strong> Change the default search engine and toggle Day/Dark theme.</li>
+      </ul>
+    </main>
+
+    <footer class="softkey-bar" role="contentinfo">
+      <button id="btn-lsk" class="softkey softkey-left" aria-label="Menu (Left softkey)">Menu</button>
+      <div class="status" id="status" aria-live="polite" aria-atomic="true"></div>
+      <button id="btn-rsk" class="softkey softkey-right" aria-label="Back (Right softkey)">Back</button>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
