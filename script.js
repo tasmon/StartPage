@@ -372,7 +372,9 @@
   // Feature phones send platform-specific key names for the soft keys.
   // We listen for the common ones and also expose visible on-screen
   // buttons so the widget works with touch, mouse and keyboard alike.
-  const LSK_KEYS = ['SoftLeft', 'MenuKey', 'F1'];
+  // On Cloud Phone, LSK is delivered as the Escape key (not SoftLeft).
+  // Keep SoftLeft/MenuKey/F1 too for other emulators/devices.
+  const LSK_KEYS = ['Escape', 'SoftLeft', 'MenuKey', 'F1'];
   const RSK_KEYS = ['SoftRight', 'F2', 'Backspace'];
 
   function openMenu() {
