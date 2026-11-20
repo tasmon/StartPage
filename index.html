@@ -13,7 +13,7 @@
     </header>
 
     <!-- HOME -->
-    <main class="screen" id="screen-home" data-screen="home" aria-live="polite">
+    <main class="screen" id="screen-home" data-screen="home" tabindex="-1" aria-live="polite">
       <h1 class="app-title">StartPage</h1>
 
       <div class="search-wrap">
@@ -26,38 +26,42 @@
         </button>
       </div>
 
-      <p class="hint">Press <strong>Menu</strong> for Favorites, History, Settings &amp; Help</p>
+      <p class="hint">Start typing to search<br />Press <strong>Menu</strong> for Favorites, History, Settings &amp; Help</p>
     </main>
 
     <!-- MENU (opened via LSK) -->
     <main class="screen hidden" id="screen-menu" data-screen="menu" aria-live="polite">
       <h2>Menu</h2>
-      <ul class="menu-list" id="menu-list" aria-label="Menu list">
-        <li><button class="menu-item" data-target="favorites"><span class="num">1</span> Favorites</button></li>
-        <li><button class="menu-item" data-target="history"><span class="num">2</span> History</button></li>
-        <li><button class="menu-item" data-target="settings"><span class="num">3</span> Settings</button></li>
-        <li><button class="menu-item" data-target="help"><span class="num">4</span> Help</button></li>
+      <ul class="rows" id="menu-list" aria-label="Menu list">
+        <li><button class="row menu-item" data-target="favorites"><span class="num">1</span><span class="row-text"><span class="row-title">Favorites</span></span></button></li>
+        <li><button class="row menu-item" data-target="history"><span class="num">2</span><span class="row-text"><span class="row-title">History</span></span></button></li>
+        <li><button class="row menu-item" data-target="settings"><span class="num">3</span><span class="row-text"><span class="row-title">Settings</span></span></button></li>
+        <li><button class="row menu-item" data-target="help"><span class="num">4</span><span class="row-text"><span class="row-title">Help</span></span></button></li>
       </ul>
     </main>
 
     <!-- FAVORITES -->
     <main class="screen hidden" id="screen-favorites" data-screen="favorites" aria-live="polite">
       <h2>Favorites</h2>
-      <form id="add-favorite-form" class="fav-form" onsubmit="return false;" aria-label="Add favorite form">
-        <input id="fav-title" type="text" placeholder="Title" required aria-label="Favorite title" />
-        <input id="fav-url" type="url" placeholder="https://example.com" required aria-label="Favorite URL" />
-        <button id="btn-save-fav" class="btn full" aria-label="Save Favorite">Save Favorite</button>
+      <ul id="favorites-list" class="rows" aria-label="Favorites list"></ul>
+    </main>
+
+    <!-- ADD FAVORITE -->
+    <main class="screen hidden" id="screen-addfav" data-screen="addfav" aria-live="polite">
+      <h2>New Favorite</h2>
+      <form id="add-favorite-form" class="fav-form" aria-label="Add favorite form">
+        <label for="fav-title">Title</label>
+        <input id="fav-title" type="text" placeholder="My site" autocomplete="off" aria-label="Favorite title" />
+        <label for="fav-url">Web address</label>
+        <input id="fav-url" type="text" inputmode="url" autocapitalize="off" autocomplete="off" placeholder="example.com" aria-label="Favorite URL" />
+        <button id="btn-save-fav" type="button" class="btn full" aria-label="Save Favorite">Save</button>
       </form>
-      <ul id="favorites-list" class="list" aria-label="Favorites list"></ul>
     </main>
 
     <!-- HISTORY -->
     <main class="screen hidden" id="screen-history" data-screen="history" aria-live="polite">
       <h2>History</h2>
-      <div class="history-controls">
-        <button id="btn-clear-history" class="btn full" aria-label="Clear History">Clear History</button>
-      </div>
-      <ul id="history-list" class="list" aria-label="History list"></ul>
+      <ul id="history-list" class="rows" aria-label="History list"></ul>
     </main>
 
     <!-- SETTINGS -->
@@ -68,7 +72,7 @@
         <label>About</label>
         <div class="about" aria-label="About">
           <div><strong>App</strong>: StartPage</div>
-          <div><strong>Version</strong>: 3.1.0</div>
+          <div><strong>Version</strong>: 3.2.0</div>
           <div><strong>Developer</strong>: Tasmon Islam</div>
         </div>
       </div>
@@ -99,17 +103,25 @@
     </main>
 
     <!-- HELP -->
-    <main class="screen hidden" id="screen-help" data-screen="help" aria-live="polite">
+    <main class="screen hidden" id="screen-help" data-screen="help" tabindex="0" aria-live="polite">
       <h2>Help</h2>
       <ul class="help-list">
-        <li><strong>Search:</strong> Type a query, then press Enter or tap the magnifier.</li>
-        <li><strong>Menu (LSK):</strong> Opens Favorites, History, Settings and Help. Press number keys 1-4 to jump to an item.</li>
+        <li><strong>Search:</strong> Just start typing on the home screen, then press Enter.</li>
+        <li><strong>Menu (LSK):</strong> Opens Favorites, History, Settings and Help. Press 1-4 to jump to an item.</li>
         <li><strong>Back (RSK):</strong> Returns to the previous screen, or closes StartPage from Home.</li>
-        <li><strong>Favorites:</strong> Add a title and URL, then tap Save Favorite.</li>
-        <li><strong>History:</strong> Shows recently visited links. Tap Clear History to erase it.</li>
+        <li><strong>Favorites:</strong> Pick "Add favorite" to save a site. Press Enter to open one, or Options to open/delete.</li>
+        <li><strong>History:</strong> Recent searches and sites, newest first. Enter re-opens one; Options deletes it or clears everything.</li>
         <li><strong>Settings:</strong> Change the default search engine and toggle Day/Dark theme.</li>
       </ul>
     </main>
+
+    <!-- OPTIONS / CONFIRM SHEET (sits above content, below the softkey bar) -->
+    <div id="sheet" class="sheet hidden" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-box">
+        <div id="sheet-title" class="sheet-title"></div>
+        <div id="sheet-list" class="sheet-list"></div>
+      </div>
+    </div>
 
     <footer class="softkey-bar" role="contentinfo">
       <button id="btn-lsk" class="softkey softkey-left" tabindex="-1" aria-label="Menu (Left softkey)">Menu</button>
